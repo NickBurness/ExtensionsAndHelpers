@@ -7,6 +7,14 @@ namespace ExtensionsAndHelpers
         /// <summary>
         /// checks if the string is not null
         /// </summary>
+        public static bool IsNull(this string str)
+        {
+            return str == null;
+        }
+
+        /// <summary>
+        /// checks if the string is not null
+        /// </summary>
         public static bool IsNotNull(this string str)
         {
             return str != null;
@@ -18,14 +26,6 @@ namespace ExtensionsAndHelpers
         public static bool IsNotNullOrEmpty(this string str)
         {
             return !string.IsNullOrEmpty(str);
-        }
-
-        /// <summary>
-        /// checks if the string is not null
-        /// </summary>
-        public static bool IsNull(this string str)
-        {
-            return str == null;
         }
 
         /// <summary>
@@ -45,10 +45,10 @@ namespace ExtensionsAndHelpers
         }
 
         /// <summary>
-        /// 
+        /// Tries to parse an alphanumeric string like "abc123" into a number 123
         /// </summary>
         /// <param name="str"></param>
-        /// <returns></returns>
+        /// <returns>nullable int representing the numeric result</returns>
         public static int? TryParseAlphanumericString(this string str)
         {
             str = Regex.Replace(str, "[^0-9]+", string.Empty);
@@ -62,10 +62,10 @@ namespace ExtensionsAndHelpers
         }
 
         /// <summary>
-        /// 
+        /// Checks if a string can be parsed into a number
         /// </summary>
         /// <param name="str"></param>
-        /// <returns></returns>
+        /// <returns>bool value representing the result</returns>
         public static bool IsNumeric(this string str)
         {
             if (int.TryParse(str, out int result))
@@ -77,11 +77,11 @@ namespace ExtensionsAndHelpers
         }
 
         /// <summary>
-        /// 
+        /// Checks if a string conforms to a regeex password policy
         /// </summary>
         /// <param name="str"></param>
         /// <param name="minLength"></param>
-        /// <returns></returns>
+        /// <returns>bool value representing if it is a strong password</returns>
         public static bool IsStrongPassword(this string str, int minLength)
         {
             if (str.Length >= minLength)
@@ -107,15 +107,59 @@ namespace ExtensionsAndHelpers
         }
 
         /// <summary>
-        /// 
+        /// checks if the string is a valid DateTime
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static MemoryStream ToMemoryStream(this string str)
+        public static bool IsDateTime(this string str)
         {
-            byte[] Bytes = System.Text.Encoding.ASCII.GetBytes(str);
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
 
-            return new MemoryStream(Bytes);
+            if (DateTime.TryParse(str, out DateTime result))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns characters from right of specified length
+        /// </summary>
+        /// <param name="str">String value</param>
+        /// <param name="length">Max number of charaters to return</param>
+        /// <returns>Returns string from right</returns>
+        public static string Right(this string str, int length)
+        {
+            if (str.IsNotNull() && str.Length > length)
+            {
+                return str.Substring(length);
+            }
+            else
+            {
+                return str;
+            }
+        }
+
+        /// <summary>
+        /// Returns characters from left of specified length
+        /// </summary>
+        /// <param name="str">String value</param>
+        /// <param name="length">Max number of charaters to return</param>
+        /// <returns>Returns string from left</returns>
+        public static string Left(this string str, int length)
+        {
+            if (str.IsNotNull() && str.Length > length)
+            {
+                return str.Substring(0, length);
+            }
+            else
+            {
+                return str;
+            }
         }
     }
 }

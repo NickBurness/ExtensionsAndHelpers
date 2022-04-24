@@ -14,7 +14,7 @@ namespace ExtensionsAndHelpersTests
             // arrange
             Action method = () => { };
             // act
-            var result = value.When(condition, method);
+            int result = value.When(condition, method);
             // assert
             Assert.Equal(1, result);
         }
@@ -27,7 +27,7 @@ namespace ExtensionsAndHelpersTests
             // arrange
             Action method = () => { };
             // act
-            var result = value.When(condition, method);
+            int result = value.When(condition, method);
             // assert
             Assert.Equal(0, result);
         }
@@ -40,7 +40,7 @@ namespace ExtensionsAndHelpersTests
             // arrange
             Action method = () => { };
             // act
-            var result = condition.WhenTrue(method);
+            int result = condition.WhenTrue(method);
             // assert
             if (result == 1)
             {
@@ -53,23 +53,17 @@ namespace ExtensionsAndHelpersTests
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void WhenFalse_ExecutesUponTrueCondition(bool condition)
+        [InlineData(false, 1)]
+        [InlineData(true, 0)]
+        public void WhenFalse_ExecutesUponTrueCondition(bool condition, int expected)
         {
             // arrange
             Action method = () => { };
             // act
-            int result = condition.WhenTrue(method);
+            int result = condition.WhenFalse(method);
             // assert
-            if (result.Equals(1))
-            {
-                Assert.Equal(1, result);
-            }
-            else
-            {
-                Assert.Equal(0, result);
-            }
+            Assert.Equal(expected, result);
+
         }
     }
 }
